@@ -5,6 +5,7 @@ name: CI
 env:
   CHAT_ID: "-957274343"
   BOT_TOKEN: "1568895430:AAG22Vr73NTS_U40qzy0B_jiJVmUj6mf1Qk"
+  MESSAGE: "Github CI/CD message"
 
 # Controls when the workflow will run
 on:
@@ -29,14 +30,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: Build notify message
-        id: build-notify-message
-        run: | 
-          echo "MESSAGE=test" >> $env:GITHUB_OUTPUT
-
       - name: Send telegram notification
         run: |
           echo $CHAT_ID
-          echo ${{ steps.build-notify-message.outputs.MESSAGE }}
+          echo $MESSAGE
           chmod +x ./utility/send_notify.sh
-          CHAT_ID=$CHAT_ID BOT_TOKEN=$BOT_TOKEN MESSAGE=${{ steps.build-notify-message.outputs.MESSAGE }} ./utility/send_notify.sh
+          CHAT_ID=$CHAT_ID BOT_TOKEN=$BOT_TOKEN MESSAGE=$MESSAGE ./utility/send_notify.sh
