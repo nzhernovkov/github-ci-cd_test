@@ -30,12 +30,13 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build notify message
+        id: build-notify-message
         run: | 
-          MESSAGE="Github CI/CD message"
+          echo "MESSAGE=\"Github CI/CD message\"" >> $env:GITHUB_OUTPUT
           echo $MESSAGE
 
       - name: Send telegram notification
         run: |
           echo $CHAT_ID
           chmod +x ./utility/send_notify.sh
-          CHAT_ID=$CHAT_ID MESSAGE=$MESSAGE BOT_TOKEN=$BOT_TOKEN ./utility/send_notify.sh
+          CHAT_ID=$CHAT_ID BOT_TOKEN=$BOT_TOKEN MESSAGE=${{ steps.build-notify-message.outputs.MESSAGE }} ./utility/send_notify.sh
