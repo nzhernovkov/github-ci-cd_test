@@ -30,5 +30,6 @@ jobs:
 
       - name: Send telegram notification
         run: |
+          echo $CHAT_ID
           chmod +x ./utility/send_notify.sh
           CHAT_ID=$CHAT_ID ./utility/send_notify.sh
