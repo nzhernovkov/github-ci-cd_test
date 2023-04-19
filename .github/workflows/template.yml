@@ -32,11 +32,11 @@ jobs:
       - name: Build notify message
         id: build-notify-message
         run: | 
-          echo "MESSAGE=\"Github CI/CD message\"" >> $env:GITHUB_OUTPUT
-          echo $MESSAGE
+          echo "MESSAGE=test" >> $env:GITHUB_OUTPUT
 
       - name: Send telegram notification
         run: |
           echo $CHAT_ID
+          echo ${{ steps.build-notify-message.outputs.MESSAGE }}
           chmod +x ./utility/send_notify.sh
           CHAT_ID=$CHAT_ID BOT_TOKEN=$BOT_TOKEN MESSAGE=${{ steps.build-notify-message.outputs.MESSAGE }} ./utility/send_notify.sh
